@@ -1,8 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
+import axios from 'axios'
 
 const View = () => {
     const[data,changedata]=useState([])
+    const fetchdata = ()=>{
+       axios.get("http://localhost:8080/view").then(
+        (response)=>{
+            changedata(response.data)
+        }
+       ).catch(
+        (error)=>{
+            console.log(error.message)
+            alert(error.message)
+        }
+       )
+    }
+    useEffect(()=>{fetchdata()},[])
   return (
     <div>
         <Navbar/>
@@ -20,8 +34,8 @@ const View = () => {
   </thead>
   <tbody>
    {data.map(
-    (value,index)=>{
-        <tr>
+    (value,i)=>{
+         return <tr>
         <th scope="row">{value.title}</th>
         <td>{value.du}</td>
         <td>{value.tr}</td>
